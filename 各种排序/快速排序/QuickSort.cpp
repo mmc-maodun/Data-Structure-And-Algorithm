@@ -8,6 +8,8 @@ Email:zyb_maodun@163.com
 
 void Quick_Sort(int *,int,int);
 int findPoss(int *,int,int);
+int Patrition(int *,int,int);
+void swap(int *,int *);
 
 int main()
 {
@@ -41,7 +43,7 @@ void Quick_Sort(int *a,int low,int high)
 
 	if(low < high)
 	{
-	   pos = findPoss(a,low,high);
+	   pos = Patrition(a,low,high);
 	   Quick_Sort(a,low,pos-1);		//左边子序列排序
 	   Quick_Sort(a,pos+1,high);	//右边子序列排序 
 	}
@@ -54,6 +56,9 @@ high刚开始表示排序范围内的最后一个位置，逐渐向左移动
 */
 int findPoss(int *a,int low,int high)
 {
+	if(a==NULL || low>high)
+		return -1;
+
 	int val = a[low];
 	while(low < high)
 	{
@@ -69,4 +74,36 @@ int findPoss(int *a,int low,int high)
 	//最终low=high
 	a[low] = val;
 	return low;
+}
+
+/*
+算法导论版快速排序
+*/
+int Patrition(int *a,int low ,int high)
+{
+	if(a==NULL || low>high)
+		return -1;
+
+	int small = low-1;
+	int j;
+	for(j=low;j<high;j++)
+	{
+		if(a[j]<a[high])
+		{
+			small++;
+			if(small != j)
+				swap(&a[small],&a[j]);
+		}
+	}
+	small++;
+	swap(&a[small],&a[high]);
+	return small;
+}
+
+
+void swap(int *a,int *b)
+{
+	int temp = *a;
+	*a = *b;
+	*b = temp;
 }
