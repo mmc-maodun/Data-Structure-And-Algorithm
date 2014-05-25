@@ -5,10 +5,12 @@ Email:zyb_maodun@163.com
 ********************************/
 #include<stdio.h>
 #include<stdlib.h>
+#include<time.h>
 
 void Quick_Sort(int *,int,int);
 int findPoss(int *,int,int);
 int Patrition(int *,int,int);
+int Random_Partition(int *,int,int);
 void swap(int *,int *);
 
 int main()
@@ -43,7 +45,7 @@ void Quick_Sort(int *a,int low,int high)
 
 	if(low < high)
 	{
-	   pos = Patrition(a,low,high);
+	   pos = Random_Partition(a,low,high);
 	   Quick_Sort(a,low,pos-1);		//左边子序列排序
 	   Quick_Sort(a,pos+1,high);	//右边子序列排序 
 	}
@@ -79,7 +81,7 @@ int findPoss(int *a,int low,int high)
 /*
 算法导论版快速排序
 */
-int Patrition(int *a,int low ,int high)
+int Partition(int *a,int low ,int high)
 {
 	if(a==NULL || low>high)
 		return -1;
@@ -98,6 +100,18 @@ int Patrition(int *a,int low ,int high)
 	small++;
 	swap(&a[small],&a[high]);
 	return small;
+}
+
+/*
+随机选取枢轴元素
+*/
+int Random_Partition(int *A,int low,int high)
+{
+	//设置随机种子
+	srand((unsigned)time(0));
+	int index = low + rand()%(high-low+1);
+	swap(&A[index],&A[high]);
+	return Partition(A,low,high);
 }
 
 
